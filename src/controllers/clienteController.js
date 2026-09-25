@@ -11,14 +11,14 @@ exports.getAll = async (req, res) => {
 
 exports.create = async (req, res) => {
     try {
-        const { nome, email, senha } = req.body;
+        const {cliente_cpf, cliente_nome, cliente_idade, cliente_endereco, cliente_bairro, cliente_contato} = req.body;
 
-        if (!nome || !email || !senha) {
+        if (!cliente_cpf || !cliente_nome || !cliente_idade || !cliente_endereco || !cliente_bairro || !cliente_contato) {
             return res.status(400).json({ message: "Preencha todos os campos obrigatórios." });
         }
 
         // Salva o registro diretamente na tabela MySQL
-        const user = await User.create({ nome, email, senha });
+        const user = await User.create({cliente_cpf, cliente_nome, cliente_idade,cliente_endereco, cliente_bairro,cliente_contato});
 
         res.status(201).json({ message: "Usuário cadastrado com sucesso!", token: "123456", user });
            
