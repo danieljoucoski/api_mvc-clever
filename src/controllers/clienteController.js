@@ -1,9 +1,9 @@
-const { User } = require("../models");
+const { Cliente } = require("../models");
 
 exports.getAll = async (req, res) => {
     try {
-        const users = await User.findAll();
-        res.json(users);
+        const clientes = await Cliente.findAll();
+        res.json(clientes);
     } catch (error) {
         res.status(500).json({ message: "Erro ao procurar usuários", error: error.message });
     }
@@ -11,16 +11,16 @@ exports.getAll = async (req, res) => {
 
 exports.create = async (req, res) => {
     try {
-        const { nome, email, senha } = req.body;
+        const {cliente_cpf, cliente_nome, cliente_idade, cliente_endereco, cliente_bairro, cliente_contato} = req.body;
 
-        if (!nome || !email || !senha) {
-            return res.status(400).json({ message: "Preencha todos os campos obrigatórios  user." });
+        if (!cliente_cpf || !cliente_nome || !cliente_idade || !cliente_endereco || !cliente_bairro || !cliente_contato) {
+            return res.status(400).json({ message: "Preencha todos os campos obrigatórios  clliente." });
         }
 
         // Salva o registro diretamente na tabela MySQL
-        const user = await User.create({ nome, email, senha });
+        const cliente = await Cliente.create({cliente_cpf, cliente_nome, cliente_idade,cliente_endereco, cliente_bairro, cliente_contato});
 
-        res.status(201).json({ message: "Usuário cadastrado com sucesso!", token: "123456", user });
+        res.status(201).json({ message: "Usuário cadastrado com sucesso!", cliente });
            
     } catch (error) {
         console.error("Erro ao cadastrar usuário:", error);
@@ -31,13 +31,13 @@ exports.create = async (req, res) => {
 exports.delete = async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await User.findByPk(id);
+        const cliente = await Cliente.findByPk(id);
 
-        if (!user) {
+        if (!cliente) {
             return res.status(404).json({ message: "Usuário não encontrado" });
         }
 
-        await user.destroy();
+        await cliente.destroy();
         res.json({ message: "Usuário deletado com sucesso" });
     } catch (error) {
         res.status(500).json({ message: "Erro ao deletar usuário", error: error.message });

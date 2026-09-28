@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
-const sequelize = require('../config/database');
-const userRoutes = require('./routes/userRoutes')
+const sequelize = require('./src/config/database');
+const userRoutes = require('./src/routes/userRoutes')
+const clienteRoutes = require('./src/routes/clienteRoutes')
 const cors = require('cors');
 
 //middlewares
@@ -10,6 +11,7 @@ app.use(express.json());
 
 //routes
 app.use('/api', userRoutes);
+app.use('/api', clienteRoutes);
 
 sequelize
     .authenticate()
