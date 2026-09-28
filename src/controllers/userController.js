@@ -8,6 +8,39 @@ exports.getAll = async (req, res) => {
         res.status(500).json({ message: "Erro ao procurar usuários", error: error.message });
     }
 };
+const crypto = require("crypto");
+
+exports.login = async (req, res) => {
+    try {
+        const { email, senha } = req.body;
+
+        const user = await User.findOne({
+            where: {
+                email: email,
+                senha: senha
+            }
+        });
+
+        if (!user) {
+            return res.status(401).json({
+                mensagem: "Email ou senha incorreta"
+            });
+        }
+
+        const token = crypto.randomUUID();
+
+        return res.json({
+            token,
+            mensagem: "Login realizado com sucesso!"
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            mensagem: "Erro ao realizar login",
+            error: error.message
+        });
+    }
+};
 
 exports.create = async (req, res) => {
     try {
@@ -21,7 +54,7 @@ exports.create = async (req, res) => {
         const user = await User.create({ nome, email, senha });
 
         res.status(201).json({ message: "Usuário cadastrado com sucesso!", token: "123456", user });
-           
+
     } catch (error) {
         console.error("Erro ao cadastrar usuário:", error);
         res.status(500).json({ message: "Erro ao salvar na base de dados", error: error.message });

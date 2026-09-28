@@ -15,5 +15,3 @@ Projeto criado em Nestjs com arquitetura MVC, com o profesor gente boa da escola
 
 npm install
 node app.js
-
-
