@@ -5,7 +5,7 @@ exports.getAll = async (req, res) => {
         const clientes = await Cliente.findAll();
         res.json(clientes);
     } catch (error) {
-        res.status(500).json({ message: "Erro ao procurar usuários", error: error.message });
+        res.status(500).json({ message: "Erro ao procurar cliente", error: error.message });
     }
 };
 
@@ -20,10 +20,10 @@ exports.create = async (req, res) => {
         // Salva o registro diretamente na tabela MySQL
         const cliente = await Cliente.create({cliente_cpf, cliente_nome, cliente_idade,cliente_endereco, cliente_bairro, cliente_contato});
 
-        res.status(201).json({ message: "Usuário cadastrado com sucesso!", cliente });
+        res.status(201).json({ message: "Cliente cadastrado com sucesso!", cliente });
            
     } catch (error) {
-        console.error("Erro ao cadastrar usuário:", error);
+        console.error("Erro ao cadastrar cliente:", error);
         res.status(500).json({ message: "Erro ao salvar na base de dados", error: error.message });
     }
 };
@@ -34,12 +34,12 @@ exports.delete = async (req, res) => {
         const cliente = await Cliente.findByPk(id);
 
         if (!cliente) {
-            return res.status(404).json({ message: "Usuário não encontrado" });
+            return res.status(404).json({ message: "Cliente não encontrado" });
         }
 
         await cliente.destroy();
-        res.json({ message: "Usuário deletado com sucesso" });
+        res.json({ message: "Cliente deletado com sucesso" });
     } catch (error) {
-        res.status(500).json({ message: "Erro ao deletar usuário", error: error.message });
+        res.status(500).json({ message: "Erro ao deletar cliente", error: error.message });
     }
 };
